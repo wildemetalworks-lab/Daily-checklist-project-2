@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Pre-Operational Checks</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Daily Pre-Operational Equipment Check</h1>
+    <form id="checkForm">
+      <label>Date: <input type="text" id="date" name="date" readonly></label><br><br>
+      
+      <label>Crew Member Name: <input type="text" name="crewMember" required></label><br><br>
+      
+      <label>Equipment Type: 
+        <select name="equipmentType" id="equipmentType" required>
+          <option value="">Select</option>
+          <option value="Forklift">Forklift</option>
+          <option value="Front-End Loader">Front-End Loader</option>
+        </select>
+      </label><br><br>
+      
+      <label>Unit ID/Serial Number: <input type="text" name="unitID" required></label><br><br>
+      
+      <div id="checklistSection"></div>
+      
+      <label>Overall Comments:<br>
+        <textarea name="overallComments" rows="4" cols="50"></textarea>
+      </label><br><br>
+      
+      <button type="submit">Submit</button>
+    </form>
+    
+    <div id="message"></div>
+  </div>
+  
+  <script src="script.js"></script>
+</body>
+</html>
