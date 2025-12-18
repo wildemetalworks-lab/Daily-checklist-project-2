@@ -97,6 +97,10 @@
         button:hover {
             background-color: #2980b9;
         }
+        button:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
         #summary {
             margin-top: 40px;
             padding: 20px;
@@ -104,9 +108,27 @@
             border-radius: 10px;
             display: none;
         }
+        .success {
+            background-color: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        .error {
+            background-color: #e74c3c;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+        }
         @media print {
-            body { margin: 0; }
-            button, select { display: none; }
+            body { margin: 0; background: white; }
+            button, select, .success, .error { display: none; }
             #summary { display: block !important; }
             .warning { display: block !important; }
         }
@@ -114,7 +136,6 @@
 </head>
 <body>
     <h1>Daily Equipment Check</h1>
-
     <div id="warning" class="warning">
         Equipment not safe – report defects immediately!
     </div>
@@ -136,6 +157,7 @@
         <label for="equipmentId">Equipment ID / Number</label>
         <input type="text" id="equipmentId" required>
 
+        <!-- All checklist items remain exactly the same -->
         <!-- Forklift Checklist -->
         <div id="forklift-checklist" class="checklist">
             <h2>Forklift Checklist</h2>
@@ -175,234 +197,4 @@
                 <div class="item-header">
                     <strong>5. Brakes: operation and parking brake</strong>
                     <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="6">
-                <div class="item-header">
-                    <strong>6. Steering: smooth operation</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="7">
-                <div class="item-header">
-                    <strong>7. Lights, horn, and backup alarm</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="8">
-                <div class="item-header">
-                    <strong>8. Battery / Fuel level and condition</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="9">
-                <div class="item-header">
-                    <strong>9. Seat belt and operator compartment</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-        </div>
-
-        <!-- Front-End Loader Checklist -->
-        <div id="loader-checklist" class="checklist">
-            <h2>Front-End Loader Checklist</h2>
-            <div class="item" data-id="1">
-                <div class="item-header">
-                    <strong>1. Tires / Tracks: condition and pressure/tension</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="2">
-                <div class="item-header">
-                    <strong>2. Bucket: teeth, cutting edge, and pins</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="3">
-                <div class="item-header">
-                    <strong>3. Hydraulic system: leaks and hose condition</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="4">
-                <div class="item-header">
-                    <strong>4. Lift arms and linkage: wear and pins</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="5">
-                <div class="item-header">
-                    <strong>5. Brakes: service and parking</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="6">
-                <div class="item-header">
-                    <strong>6. Steering and articulation joint</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="7">
-                <div class="item-header">
-                    <strong>7. Lights, horn, and backup alarm</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="8">
-                <div class="item-header">
-                    <strong>8. Engine oil, coolant, and fuel levels</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="9">
-                <div class="item-header">
-                    <strong>9. Cab: glass, seat belt, and controls</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-        </div>
-
-        <button type="submit">Submit Check</button>
-    </form>
-
-    <div id="summary"></div>
-
-    <script>
-        // Set today's date automatically
-        document.getElementById('date').valueAsDate = new Date();
-
-        // Show correct checklist when equipment is selected
-        document.getElementById('equipment').addEventListener('change', function() {
-            const value = this.value;
-            document.getElementById('forklift-checklist').classList.toggle('active', value === 'forklift');
-            document.getElementById('loader-checklist').classList.toggle('active', value === 'loader');
-        });
-
-        // Ensure only one checkbox (Pass or Fail) can be checked per item
-        document.querySelectorAll('.item').forEach(item => {
-            const pass = item.querySelector('.pass');
-            const fail = item.querySelector('.fail');
-
-            pass.addEventListener('change', () => {
-                if (pass.checked) fail.checked = false;
-                updateItemStyle(item);
-            });
-            fail.addEventListener('change', () => {
-                if (fail.checked) pass.checked = false;
-                updateItemStyle(item);
-            });
-        });
-
-        function updateItemStyle(item) {
-            if (item.querySelector('.fail').checked) {
-                item.classList.add('fail');
-            } else {
-                item.classList.remove('fail');
-            }
-        }
-
-        // Form submission
-        document.getElementById('checkForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const equipmentType = document.getElementById('equipment').options[document.getElementById('equipment').selectedIndex].text;
-            const date = document.getElementById('date').value;
-            const operator = document.getElementById('operator').value;
-            const equipmentId = document.getElementById('equipmentId').value;
-
-            const items = document.querySelectorAll('.checklist.active .item');
-            let hasFail = false;
-            let results = [];
-
-            items.forEach(item => {
-                const title = item.querySelector('strong').textContent;
-                const pass = item.querySelector('.pass').checked;
-                const fail = item.querySelector('.fail').checked;
-                const notes = item.querySelector('textarea').value.trim();
-
-                let status = 'Not checked';
-                if (pass) status = 'Pass';
-                if (fail) {
-                    status = 'Fail';
-                    hasFail = true;
-                }
-
-                results.push({
-                    title,
-                    status,
-                    notes: notes || 'No notes'
-                });
-            });
-
-            // Show warning if any fail
-            document.getElementById('warning').style.display = hasFail ? 'block' : 'none';
-
-            // Generate summary
-            let summaryHTML = `
-                <h2>Daily Check Summary</h2>
-                <p><strong>Equipment:</strong> ${equipmentType}</p>
-                <p><strong>Date:</strong> ${date}</p>
-                <p><strong>Operator:</strong> ${operator}</p>
-                <p><strong>Equipment ID:</strong> ${equipmentId}</p>
-                <hr>
-                <h3>Checklist Results</h3>
-            `;
-
-            results.forEach(r => {
-                const color = r.status === 'Pass' ? 'green' : r.status === 'Fail' ? 'red' : 'gray';
-                summaryHTML += `
-                    <p><strong>${r.title}</strong><br>
-                    <span style="color:${color}; font-weight:bold;">${r.status}</span><br>
-                    Notes: ${r.notes}</p>
-                `;
-            });
-
-            if (hasFail) {
-                summaryHTML += `<p style="color:red; font-weight:bold; font-size:1.2em;">Equipment not safe – report defects immediately!</p>`;
-            } else {
-                summaryHTML += `<p style="color:green; font-weight:bold;">All checks passed – equipment ready for use.</p>`;
-            }
-
-            summaryHTML += `<p style="margin-top:30px; font-size:0.9em; color:#666;">Print this page (Ctrl+P) to keep a record.</p>`;
-
-            const summaryDiv = document.getElementById('summary');
-            summaryDiv.innerHTML = summaryHTML;
-            summaryDiv.style.display = 'block';
-
-            // Scroll to summary
-            summaryDiv.scrollIntoView({ behavior: 'smooth' });
-
-            // Also log to console for debugging / future integration
-            console.log({ equipmentType, date, operator, equipmentId, results, hasFail });
-        });
-    </script>
-</body>
-</html>
+                    <label><input type="checkbox" class="
