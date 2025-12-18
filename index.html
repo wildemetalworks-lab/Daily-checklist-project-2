@@ -9,33 +9,56 @@
 <body>
   <div class="container">
     <h1>Daily Pre-Operational Equipment Check</h1>
-    <form id="checkForm">
-      <label>Date: <input type="text" id="date" name="date" readonly></label><br><br>
-      
-      <label>Crew Member Name: <input type="text" name="crewMember" required></label><br><br>
-      
-      <label>Equipment Type: 
-        <select name="equipmentType" id="equipmentType" required>
-          <option value="">Select</option>
-          <option value="Forklift">Forklift</option>
-          <option value="Front-End Loader">Front-End Loader</option>
-        </select>
-      </label><br><br>
-      
-      <label>Unit ID/Serial Number: <input type="text" name="unitID" required></label><br><br>
-      
-      <div id="checklistSection"></div>
-      
-      <label>Overall Comments:<br>
-        <textarea name="overallComments" rows="4" cols="50"></textarea>
-      </label><br><br>
-      
-      <button type="submit">Submit</button>
-    </form>
+    <form action="https://formbold.com/s/9kKeO" method="post" enctype="multipart/form-data">
+  <!-- Replace or keep your existing fields below - just make sure every input has a name attribute -->
+
+  <label for="date">Date:</label>
+  <input type="date" id="date" name="date" required>
+
+  <label for="equipment">Equipment:</label>
+  <select id="equipment" name="equipment" required>
+    <option value="">Select equipment</option>
+    <option value="forklift1">Forklift 1</option>
+    <option value="forklift2">Forklift 2</option>
+    <option value="loader1">Front-End Loader 1</option>
+    <option value="loader2">Front-End Loader 2</option>
+    <!-- Add more options as needed -->
+  </select>
+
+  <label for="operator">Operator Name:</label>
+  <input type="text" id="operator" name="operator" required>
+
+  <label for="visual_check">Visual Check (pass/fail):</label>
+  <select id="visual_check" name="visual_check" required>
+    <option value="pass">Pass</option>
+    <option value="fail">Fail</option>
+  </select>
+
+  <label for="fluid_levels">Fluid Levels OK:</label>
+  <select id="fluid_levels" name="fluid_levels" required>
+    <option value="yes">Yes</option>
+    <option value="no">No</option>
+  </select>
+
+  <label for="tires">Tires/Tracks Condition:</label>
+  <select id="tires" name="tires" required>
+    <option value="good">Good</option>
+    <option value="needs_attention">Needs Attention</option>
+  </select>
+
+  <label for="notes">Notes / Issues:</label>
+  <textarea id="notes" name="notes" rows="4"></textarea>
+
+  <label for="photo">Photo of any issues (optional):</label>
+  <input type="file" id="photo" name="photo" accept="image/*">
+
+  <button type="submit">Submit Check</button>
+</form>
     
     <div id="message"></div>
   </div>
   
   <script src="script.js"></script>
 </body>
+
 </html>
