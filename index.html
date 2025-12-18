@@ -117,18 +117,9 @@
             font-weight: bold;
             margin-top: 20px;
         }
-        .error {
-            background-color: #e74c3c;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 20px;
-        }
         @media print {
             body { margin: 0; background: white; }
-            button, select, .success, .error { display: none; }
+            button, select, form { display: none; }
             #summary { display: block !important; }
             .warning { display: block !important; }
         }
@@ -136,65 +127,5 @@
 </head>
 <body>
     <h1>Daily Equipment Check</h1>
-    <div id="warning" class="warning">
-        Equipment not safe – report defects immediately!
-    </div>
 
-    <form id="checkForm">
-        <label for="equipment">Equipment Type</label>
-        <select id="equipment" required>
-            <option value="">-- Select Equipment --</option>
-            <option value="forklift">Forklift</option>
-            <option value="loader">Front-End Loader</option>
-        </select>
-
-        <label for="date">Date</label>
-        <input type="date" id="date" required>
-
-        <label for="operator">Operator Name</label>
-        <input type="text" id="operator" required>
-
-        <label for="equipmentId">Equipment ID / Number</label>
-        <input type="text" id="equipmentId" required>
-
-        <!-- All checklist items remain exactly the same -->
-        <!-- Forklift Checklist -->
-        <div id="forklift-checklist" class="checklist">
-            <h2>Forklift Checklist</h2>
-            <div class="item" data-id="1">
-                <div class="item-header">
-                    <strong>1. Tires: condition and pressure</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="2">
-                <div class="item-header">
-                    <strong>2. Forks: condition and pins</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="3">
-                <div class="item-header">
-                    <strong>3. Hydraulic system: leaks</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="4">
-                <div class="item-header">
-                    <strong>4. Mast and carriage: damage or wear</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="fail"> Fail</label>
-                </div>
-                <textarea placeholder="Notes (optional)"></textarea>
-            </div>
-            <div class="item" data-id="5">
-                <div class="item-header">
-                    <strong>5. Brakes: operation and parking brake</strong>
-                    <label><input type="checkbox" class="pass"> Pass</label>
-                    <label><input type="checkbox" class="
+    <div id="warning" class="
