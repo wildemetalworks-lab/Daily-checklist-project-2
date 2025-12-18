@@ -18,6 +18,10 @@
         <option value="loader">Front-End Loader</option>
       </select>
 
+      <p id="selectionMessage" style="color: #d80000; font-weight: bold; display: none;">
+        Please select an equipment type above to see the checklist.
+      </p>
+
       <label for="checkDate">Date</label>
       <input type="date" id="checkDate" required />
 
@@ -30,70 +34,61 @@
       <!-- Forklift Checklist -->
       <div id="forkliftSection" class="section">
         <h2>Forklift Checklist</h2>
-
+        <!-- (all your forklift items remain exactly the same) -->
         <div class="item" data-name="Tires: condition and pressure">
           <strong>Tires: condition and pressure</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Forks: condition and pins">
           <strong>Forks: condition and pins</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Mast/Carriage/Backrest: damage or cracks">
           <strong>Mast/Carriage/Backrest: damage or cracks</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Hydraulic hoses/cylinders: leaks or damage">
           <strong>Hydraulic hoses/cylinders: leaks or damage</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Overhead guard: damage">
           <strong>Overhead guard: damage</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Fluid levels: oil, hydraulic, coolant, fuel/battery">
           <strong>Fluid levels: oil, hydraulic, coolant, fuel/battery</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Seat belt: condition and functioning">
           <strong>Seat belt: condition and functioning</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Horn, lights, backup alarm: working">
           <strong>Horn, lights, backup alarm: working</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Brakes and steering: functioning">
           <strong>Brakes and steering: functioning</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="No visible leaks under machine">
           <strong>No visible leaks under machine</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
@@ -105,70 +100,61 @@
       <!-- Front-End Loader Checklist -->
       <div id="loaderSection" class="section">
         <h2>Front-End Loader Checklist</h2>
-
+        <!-- (all your loader items remain exactly the same) -->
         <div class="item" data-name="Tires/Tracks: condition, inflation, damage">
           <strong>Tires/Tracks: condition, inflation, damage</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Bucket/Teeth/Edges: wear, damage, secure">
           <strong>Bucket/Teeth/Edges: wear, damage, secure</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Articulation joint/frame lock: condition">
           <strong>Articulation joint/frame lock: condition</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Mirrors, lights, horn, backup alarm: working">
           <strong>Mirrors, lights, horn, backup alarm: working</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Seat belt and cab (ROPS): secure, no damage">
           <strong>Seat belt and cab (ROPS): secure, no damage</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Fluid levels: engine oil, hydraulic, coolant, fuel">
           <strong>Fluid levels: engine oil, hydraulic, coolant, fuel</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Hydraulic hoses/cylinders: leaks or damage">
           <strong>Hydraulic hoses/cylinders: leaks or damage</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Brakes and steering: functioning">
           <strong>Brakes and steering: functioning</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="No leaks under machine">
           <strong>No leaks under machine</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
           <label><input type="checkbox" class="fail"> Fail</label><br>
           <textarea placeholder="Notes (optional)" rows="2"></textarea>
         </div>
-
         <div class="item" data-name="Fire extinguisher: present and charged">
           <strong>Fire extinguisher: present and charged</strong><br>
           <label><input type="checkbox" class="pass"> Pass</label>
@@ -184,5 +170,11 @@
   </div>
 
   <script src="script.js"></script>
+  <!-- Fallback message if JavaScript fails to load -->
+  <noscript>
+    <p style="color:red; text-align:center; font-weight:bold;">
+      JavaScript is disabled. Please enable it to use the checklist.
+    </p>
+  </noscript>
 </body>
 </html>
