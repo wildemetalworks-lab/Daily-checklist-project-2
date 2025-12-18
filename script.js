@@ -1,99 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
-  // Auto today's date
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('date').value = today;
-  
-  const checklists = {
-    Forklift: [
-      "Brakes", "Horn", "Steering", "Tires/Wheels", "Forks/Mast/Chains",
-      "Hydraulic Hoses/Fluid Levels", "Battery/Fuel Level", "Lights/Seat Belt", "Leaks/Damage"
-    ],
-    "Front-End Loader": [
-      "Brakes", "Horn", "Steering", "Tires/Wheels", "Bucket/Attachments",
-      "Hydraulic Hoses/Fluid Levels", "Engine Oil/Coolant/Fuel", "Lights/Seat Belt/ROPS", "Leaks/Damage"
-    ]
-  };
-  
-  const equipmentSelect = document.getElementById('equipmentType');
-  const checklistSection = document.getElementById('checklistSection');
-  
-  equipmentSelect.addEventListener('change', () => {
-    const type = equipmentSelect.value;
-    checklistSection.innerHTML = '';
-    
-    if (type && checklists[type]) {
-      checklists[type].forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'checklist-item';
-        div.innerHTML = `
-          <strong>${item}</strong><br>
-          <label><input type="radio" name="${item}_status" value="Pass" required> Pass</label>
-          <label><input type="radio" name="${item}_status" value="Fail"> Fail</label>
-          <label><input type="radio" name="${item}_status" value="NA"> NA</label><br>
-          <label>Comments (required if Fail): 
-            <textarea name="${item}_comment" rows="2" cols="50"></textarea>
-          </label>
-        `;
-        checklistSection.appendChild(div);
-      });
-    }
+// Set today's date
+document.getElementById('checkDate').valueAsDate = new Date();
+
+// Show/hide correct checklist
+document.getElementById('equipmentType').addEventListener('change', function() {
+  const type = this.value;
+  document.getElementById('forkliftSection').classList.toggle('active', type === 'forklift');
+  document.getElementById('loaderSection').classList.toggle('active', type === 'loader');
+});
+
+// Submit button
+document.getElementById('submitBtn').addEventListener('click', function() {
+  const equipmentType = document.getElementById('equipmentType').value;
+  if (!equipmentType) return alert('Please select an equipment type.');
+
+  const date = document.getElementById('checkDate').value;
+  const operator = document.getElementById('operatorName').value.trim();
+  const eqID = document.getElementById('equipmentID').value.trim();
+
+  if (!date || !operator || !eqID) return alert('Please fill in all fields.');
+
+  const section = document.getElementById(equipmentType === 'forklift' ? 'forkliftSection' : 'loaderSection');
+  const items = section.querySelectorAll('.item');
+  let hasFail = false;
+  let summaryHTML = `
+    <h2>Equipment Check Summary</h2>
+    <p><strong>Date:</strong> ${date}</p>
+    <p><strong>Equipment:</strong> ${equipmentType === 'forklift' ? 'Forklift' : 'Front-End Loader'} - ${eqID}</p>
+    <p><strong>Operator:</strong> ${operator}</p>
+    <hr><h3>Checklist Results</h3>
+  `;
+
+  items.forEach(item => {
+    const name = item.getAttribute('data-name');
+    const pass = item.querySelector('.pass').checked;
+    const fail = item.querySelector('.fail').checked;
+    const notes = item.querySelector('textarea').value.trim();
+
+    let status = 'Not checked';
+    let statusClass = '';
+    if (pass && !fail) { status = 'PASS'; statusClass = 'pass'; }
+    if (fail && !pass) { status = 'FAIL'; statusClass = 'fail'; hasFail = true; }
+    if (pass && fail) { status = 'Invalid (both checked)'; statusClass = 'fail'; hasFail = true; }
+
+    summaryHTML += `
+      <div style="margin: 15px 0;">
+        <strong>${name}</strong><br>
+        <span class="${statusClass}">${status}</span>
+        ${notes ? '<br><em>Notes: ' + notes + '</em>' : ''}
+      </div>
+    `;
   });
-  
-  // Required comments if Fail
-  checklistSection.addEventListener('change', (e) => {
-    if (e.target.type === 'radio' && e.target.value === 'Fail') {
-      const commentTextarea = e.target.closest('.checklist-item').querySelector('textarea');
-      commentTextarea.required = true;
-    } else if (e.target.type === 'radio') {
-      const commentTextarea = e.target.closest('.checklist-item').querySelector('textarea');
-      if (e.target.value !== 'Fail') commentTextarea.required = false;
-    }
-  });
-  
-  // Form submit
-  const form = document.getElementById('checkForm');
-  const messageDiv = document.getElementById('message');
-  
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const formData = new FormData(form);
-    
-    const data = {
-      date: formData.get('date'),
-      crewMember: formData.get('crewMember'),
-      equipmentType: formData.get('equipmentType'),
-      unitID: formData.get('unitID'),
-      overallComments: formData.get('overallComments'),
-      checklist: []
-    };
-    
-    const type = data.equipmentType;
-    checklists[type].forEach(item => {
-      const status = formData.get(`${item}_status`);
-      const comment = formData.get(`${item}_comment`);
-      data.checklist.push({item, status, comment});
-    });
-    
-    // Replace with your Web App URL
-    const WEB_APP_URL = 'https://script.google.com/macros/s/YOUR-DEPLOYMENT-ID/exec';
-    
-    try {
-      const response = await fetch(WEB_APP_URL, {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: {'Content-Type': 'application/json'},
-        mode: 'no-cors'  // Avoids CORS issues for simple success
-      });
-      
-      messageDiv.textContent = 'Submission successful!';
-      messageDiv.style.color = 'green';
-      form.reset();
-      document.getElementById('date').value = today;
-      checklistSection.innerHTML = '';
-    } catch (error) {
-      messageDiv.textContent = 'Error submitting. Check console.';
-      messageDiv.style.color = 'red';
-      console.error(error);
-    }
-  });
+
+  if (hasFail) {
+    summaryHTML = `<div class="warning">⚠️ Equipment not safe – report defects immediately!</div>` + summaryHTML;
+  } else {
+    summaryHTML = `<div class="safe">✓ All checks passed – Equipment safe to operate</div>` + summaryHTML;
+  }
+
+  summaryHTML += `<br><button onclick="window.print()" style="padding:12px 24px; font-size:16px;">Print / Save as PDF</button>`;
+
+  document.getElementById('summary').innerHTML = summaryHTML;
+  document.getElementById('summary').style.display = 'block';
+  document.getElementById('formSection').style.display = 'none';
+
+  // Smooth scroll to summary
+  document.getElementById('summary').scrollIntoView({ behavior: 'smooth' });
 });
