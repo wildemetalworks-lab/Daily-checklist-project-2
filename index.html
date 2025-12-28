@@ -431,11 +431,12 @@
             })
             .then(r => r.json())
             .then(() => console.log("Payload is sent."))
-            .catch(() => console.log("Payload is not sent."));
+            .catch((err) => console.log(err));
         });
     </script>
 </body>
 </html>
+
 
 
 
