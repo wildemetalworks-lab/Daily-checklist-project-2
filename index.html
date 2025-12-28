@@ -343,7 +343,7 @@
             let results = [];
 
             items.forEach(item => {
-                const title = item.querySelector('strong').textContent;
+                const name = item.querySelector('strong').textContent;
                 const pass = item.querySelector('.pass').checked;
                 const fail = item.querySelector('.fail').checked;
                 const notes = item.querySelector('textarea').value.trim();
@@ -356,8 +356,8 @@
                 }
 
                 results.push({
-                    title,
-                    status,
+                    name: name,
+                    status: status,
                     notes: notes || 'No notes'
                 });
             });
@@ -379,7 +379,7 @@
             results.forEach(r => {
                 const color = r.status === 'Pass' ? 'green' : r.status === 'Fail' ? 'red' : 'gray';
                 summaryHTML += `
-                    <p><strong>${r.title}</strong><br>
+                    <p><strong>${r.name}</strong><br>
                     <span style="color:${color}; font-weight:bold;">${r.status}</span><br>
                     Notes: ${r.notes}</p>
                 `;
@@ -411,16 +411,7 @@
               equipmentId,
               operator,
               hasFail,
-              items: Array.from(items).map(item => {
-                const pass = item.querySelector('.pass').checked;
-                const fail = item.querySelector('.fail').checked;
-
-                return {
-                  name: item.getAttribute('data-name'),
-                  status: fail ? "FAIL" : pass ? "PASS" : "NOT CHECKED",
-                  notes: item.querySelector('textarea').value.trim()
-                };
-              })
+              items: results
             };
 
             // Send an email containing a spreadsheet with the data provided
@@ -443,5 +434,6 @@
     </script>
 </body>
 </html>
+
 
 
