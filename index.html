@@ -426,13 +426,21 @@
             // Send an email containing a spreadsheet with the data provided
             fetch("https://script.google.com/macros/s/AKfycbw3YMIAZWeRRNg9470PpaFxIbq2N2qPP8FdYUVPGCmp64B9uRVTxB6BpquKH81rXSF_Tw/exec", {
               method: "POST",
-              headers: {"Content-Type": "application/json"},
               body: JSON.stringify(payload)
             })
             .then(res => res.json())
-            .then(() => console.log("Payload is sent."))
+            .then((response) => {
+                // Note: GAS always returns 200 OK even on script errors, 
+                // so check the 'success' property we set in the GAS script
+                if(response.success){
+                    console.log("Payload is sent.");
+                } else {
+                    console.error("Script Error:", response.error);
+                }
+            })
             .catch((err) => console.log(err));
         });
     </script>
 </body>
 </html>
+
