@@ -424,9 +424,9 @@
             };
 
             // Send an email containing a spreadsheet with the data provided
-            fetch("https://script.google.com/macros/s/AKfycbyeGd0yePzApHMUMWFefBSKXKLyP7iPwpGlVFQ5PA8XodidH7PxSlxS2xHSd7DbKDlC_A/exec", {
+            fetch("https://script.google.com/macros/s/AKfycbw3YMIAZWeRRNg9470PpaFxIbq2N2qPP8FdYUVPGCmp64B9uRVTxB6BpquKH81rXSF_Tw/exec", {
               method: "POST",
-              headers: { "Content-Type": "application/json" },
+              mode: "no-cors",
               body: JSON.stringify(payload)
             })
             .then(r => r.json())
@@ -436,6 +436,7 @@
     </script>
 </body>
 </html>
+
 
 
 
