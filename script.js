@@ -88,6 +88,8 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('formSection').style.display = 'none';
     document.getElementById('summary').scrollIntoView({ behavior: 'smooth' });
 
+    console.log("Payload is being sent...")
+
     const payload = {
       date,
       equipmentType,
@@ -112,7 +114,8 @@ document.addEventListener('DOMContentLoaded', function () {
       body: JSON.stringify(payload)
     })
     .then(r => r.json())
-    .then(() => alert("Checklist submitted successfully"))
-    .catch(() => alert("Submission failed"));
+    .then(() => console.log("Payload is sent."))
+    .catch(() => console.log("Payload is not sent."));
   });
 });
+
