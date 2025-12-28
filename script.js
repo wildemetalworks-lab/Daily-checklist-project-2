@@ -87,5 +87,15 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('summary').style.display = 'block';
     document.getElementById('formSection').style.display = 'none';
     document.getElementById('summary').scrollIntoView({ behavior: 'smooth' });
+
+    fetch("https://script.google.com/macros/s/AKfycbxrzZA6RNjUkomeLBIRFZPPriUmxSdFSF7cdgOKw_IeGM0TOih1fs8mo3HKi5Ctr3HQag/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+    .then(r => r.json())
+    .then(() => alert("Checklist submitted successfully"))
+    .catch(() => alert("Submission failed"));
   });
 });
+
