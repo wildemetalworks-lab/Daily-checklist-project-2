@@ -87,35 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('summary').style.display = 'block';
     document.getElementById('formSection').style.display = 'none';
     document.getElementById('summary').scrollIntoView({ behavior: 'smooth' });
-
-    console.log("Payload is being sent...")
-
-    const payload = {
-      date,
-      equipmentType,
-      equipmentID: eqID,
-      operator,
-      hasFail,
-      items: Array.from(items).map(item => {
-        const pass = item.querySelector('.pass').checked;
-        const fail = item.querySelector('.fail').checked;
-
-        return {
-          name: item.getAttribute('data-name'),
-          status: fail ? "FAIL" : pass ? "PASS" : "NOT CHECKED",
-          notes: item.querySelector('textarea').value.trim()
-        };
-      })
-    };
-    
-    fetch("https://script.google.com/macros/s/AKfycbxrzZA6RNjUkomeLBIRFZPPriUmxSdFSF7cdgOKw_IeGM0TOih1fs8mo3HKi5Ctr3HQag/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-    .then(r => r.json())
-    .then(() => console.log("Payload is sent."))
-    .catch(() => console.log("Payload is not sent."));
   });
 });
+
 
