@@ -414,6 +414,8 @@
               items: results
             };
 
+            console.log(payload.items)
+
             // Send an email containing a spreadsheet with the data provided
             fetch("https://script.google.com/macros/s/AKfycbxOFZiAMYIGSsKG1qO-dDq5TlvZi1m-h_HJ2tNufFdgu1aCmApZMiv_mkEImFRAfvJv3w/exec", {
               method: "POST",
@@ -434,6 +436,7 @@
     </script>
 </body>
 </html>
+
 
 
 
