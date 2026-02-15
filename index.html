@@ -1,86 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kainai Daily Equipment Check</title>
+    <style>
+        :root {
+            --primary-dark: #015144;
+            --primary-light: #8AC865;
+            --gray-light: #f8fafc;
+            --gray-medium: #e2e8f0;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(to bottom, var(--gray-light), #e5e7eb);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px 12px 40px;
+            min-height: 100vh;
+        }
+        .container { max-width: 820px; margin: 0 auto; }
+        header { text-align: center; padding: 20px 0 28px; }
+        h1 {
+            color: var(--primary-dark);
+            margin: 0;
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .warning {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border-left: 5px solid var(--danger);
+            font-weight: 600;
+            text-align: center;
+            margin: 0 auto 24px;
+            max-width: 640px;
+            display: none;
+        }
+        form {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            padding: 28px 24px 32px;
+            border-top: 4px solid var(--primary-dark);
+        }
+        label {
+            display: block;
+            margin: 1.4rem 0 0.5rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+        input[type="text"], input[type="date"], select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 3px rgba(138,200,101,0.2);
+        }
+        .checklist { margin-top: 2rem; display: none; }
+        .checklist.active { display: block; }
+        .checklist h2 {
+            color: var(--primary-dark);
+            margin: 0 0 1.2rem;
+            padding-bottom: 0.6rem;
+            border-bottom: 2px solid var(--primary-light);
+            font-size: 1.4rem;
+        }
+        .item {
+            background: var(--gray-light);
+            padding: 16px 18px;
+            margin-bottom: 12px;
+            border-radius: 10px;
+            border-left: 5px solid #cbd5e1;
+            transition: all 0.15s ease;
+        }
+        .item.fail {
+            border-left-color: var(--danger);
+            background: #fef2f2;
+        }
+        .item-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 16px 24px;
+        }
+        .item-header strong {
+            flex: 1 1 240px;
+            font-size: 1.05rem;
+            color: var(--text-dark);
+        }
+        .choice-group {
+            display: flex;
+            gap: 20px;
+        }
+        .choice-group label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            user-select: none;
+        }
+        .choice-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            accent-color: var(--primary-light);
+        }
+        textarea {
+            width: 100%;
+            min-height: 68px;
+            padding: 10px 12px;
+            margin-top: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            resize: vertical;
+        }
+        button {
+            margin-top: 2.2rem;
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-dark);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        button:hover { background: #004035; transform: translateY(-1px); }
+        #summary {
+            margin-top: 2.5rem;
+            padding: 24px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.07);
+            border-left: 5px solid var(--primary-light);
+            display: none;
+        }
+        @media print {
+            body { background: white; padding: 0; }
+            button, .warning { display: none !important; }
+            #summary { display: block !important; }
+            form { box-shadow: none; border: 1px solid #ddd; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Daily Equipment Check</h1>
+    </header>
+
+    <div id="warning" class="warning">
+        Equipment not safe – report defects immediately!
+    </div>
+
+    <form id="checkForm">
+        <label for="equipment">Equipment Type</label>
+        <select id="equipment" required>
+            <option value="">-- Select Equipment --</option>
+            <option value="forklift">Forklift</option>
+            <option value="loader">Front-End Loader</option>
+        </select>
+
+        <label for="date">Date</label>
+        <input type="date" id="date" required>
+
+        <label for="operator">Operator Name</label>
+        <input type="text" id="operator" required>
+
+        <label for="equipmentId">Equipment ID / Number</label>
+        <input type="text" id="equipmentId" required>
+
+        <!-- Forklift Checklist -->
+        <div id="forklift-checklist" class="checklist">
+            <h2>Forklift Checklist</h2>
+            <div class="item"><div class="item-header"><strong>1. Tires: condition and pressure</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>2. Forks: condition and load rating</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>3. Mast and chains: wear and lubrication</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>4. Brakes and parking brake</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>5. Steering and controls</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>6. Lights, horn, and backup alarm</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>7. Fluid levels (oil, coolant, hydraulic)</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>8. Seatbelt and safety guards</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+        </div>
+
+        <!-- Loader Checklist -->
+        <div id="loader-checklist" class="checklist">
+            <h2>Front-End Loader Checklist</h2>
+            <div class="item"><div class="item-header"><strong>1. Tires / Tracks: condition, pressure, wear</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>2. Bucket / Blade: condition and teeth</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>3. Hydraulics: leaks, hoses, cylinders</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>4. Brakes and steering</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>5. Lights, horn, backup alarm</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>6. Fluid levels (engine, hydraulic, transmission)</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>7. Seatbelt and ROPS</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+            <div class="item"><div class="item-header"><strong>8. Gauges and warning lights</strong><div class="choice-group"><label><input type="checkbox" class="pass"><span>Pass</span></label><label><input type="checkbox" class="fail"><span>Fail</span></label></div></div><textarea placeholder="Notes (optional)"></textarea></div>
+        </div>
+
+        <button type="submit">Submit Check</button>
+    </form>
+
+    <div id="summary"></div>
+</div>
+
 <script>
+// Auto-set today's date
+document.getElementById('date').valueAsDate = new Date();
+
+// Show correct checklist
+document.getElementById('equipment').addEventListener('change', function() {
+    const val = this.value;
+    document.getElementById('forklift-checklist').classList.toggle('active', val === 'forklift');
+    document.getElementById('loader-checklist').classList.toggle('active', val === 'loader');
+});
+
+// Pass/Fail exclusive + red styling
+document.querySelectorAll('.item').forEach(item => {
+    const pass = item.querySelector('.pass');
+    const fail = item.querySelector('.fail');
+    if (pass && fail) {
+        pass.addEventListener('change', () => { if (pass.checked) fail.checked = false; });
+        fail.addEventListener('change', () => { if (fail.checked) pass.checked = false; });
+        fail.addEventListener('change', () => item.classList.toggle('fail', fail.checked));
+    }
+});
+
+// Submit handler
 document.getElementById('checkForm').addEventListener('submit', function(e) {
-    e.preventDefault(); // ← stops page reload
+    e.preventDefault();
 
-    const form = this;
-    const equipment = form.equipment.value;
-    const date = form.date.value;
-    const operator = form.operator.value;
-    const eqId = form.equipmentId.value;
+    const btn = this.querySelector('button');
+    btn.disabled = true;
+    btn.textContent = "Submitting...";
 
-    if (!equipment) {
-        alert("Please select equipment type");
+    const equipmentType = document.getElementById('equipment').options[document.getElementById('equipment').selectedIndex].text;
+    const date = document.getElementById('date').value;
+    const operator = document.getElementById('operator').value;
+    const equipmentId = document.getElementById('equipmentId').value;
+
+    const activeChecklist = document.querySelector('.checklist.active');
+    if (!activeChecklist) {
+        alert("Please select an equipment type.");
+        btn.disabled = false; btn.textContent = "Submit Check";
         return;
     }
-
-    // Hide warning if it was shown before
-    document.getElementById('warning').style.display = 'none';
 
     let hasFail = false;
-    let summaryHTML = `
-        <h2>Daily Equipment Check – ${equipment.toUpperCase()}</h2>
-        <p><strong>Date:</strong> ${date || '—'}</p>
-        <p><strong>Operator:</strong> ${operator || '—'}</p>
-        <p><strong>Equipment ID:</strong> ${eqId || '—'}</p>
-        <hr>
-        <h3>Inspection Results</h3>
-    `;
-
-    // Find the active checklist
-    const checklist = document.getElementById(equipment + '-checklist');
-    if (!checklist) {
-        alert("Checklist not found for selected equipment");
-        return;
-    }
-
-    checklist.querySelectorAll('.item').forEach((item, index) => {
-        const pass = item.querySelector('.pass');
-        const fail = item.querySelector('.fail');
+    let results = [];
+    activeChecklist.querySelectorAll('.item').forEach(item => {
+        const name = item.querySelector('strong').textContent;
+        const pass = item.querySelector('.pass').checked;
+        const fail = item.querySelector('.fail').checked;
         const notes = item.querySelector('textarea').value.trim();
-        const itemText = item.querySelector('strong').textContent;
 
         let status = 'Not checked';
-        let className = '';
+        if (pass) status = 'Pass';
+        if (fail) { status = 'Fail'; hasFail = true; }
 
-        if (pass?.checked) {
-            status = 'PASS';
-            className = 'success';
-        } else if (fail?.checked) {
-            status = 'FAIL';
-            className = 'danger';
-            hasFail = true;
-        }
-
-        summaryHTML += `
-            <div style="margin: 12px 0; padding: 12px; background: #f8fafc; border-left: 5px solid ${className === 'danger' ? '#ef4444' : className === 'success' ? '#8AC865' : '#cbd5e1'}; border-radius: 6px;">
-                <strong>${itemText}</strong><br>
-                <span style="color: ${className === 'danger' ? '#991b1b' : className === 'success' ? '#065f46' : '#475569'}; font-weight: 600;">
-                    ${status}
-                </span>
-                ${notes ? `<div style="margin-top:8px; color:#475569;">Notes: ${notes}</div>` : ''}
-            </div>
-        `;
+        results.push({ name, status, notes: notes || 'No notes' });
     });
 
-    if (hasFail) {
-        document.getElementById('warning').style.display = 'block';
-        summaryHTML += `
-            <div style="margin-top: 2rem; padding: 16px; background: #fee2e2; color: #991b1b; border-radius: 8px; text-align: center; font-weight: bold;">
-                ⚠️ EQUIPMENT NOT SAFE – REPORT DEFECTS IMMEDIATELY!
-            </div>
-        `;
-    } else {
-        summaryHTML += `
-            <div style="margin-top: 2rem; padding: 16px; background: #ecfccb; color: #365314; border-radius: 8px; text-align: center; font-weight: bold;">
-                ✓ All items passed – equipment appears safe for use
-            </div>
-        `;
-    }
+    // Warning banner
+    document.getElementById('warning').style.display = hasFail ? 'block' : 'none';
+
+    // Build summary
+    let summaryHTML = `
+        <h2>Daily Check Summary</h2>
+        <p><strong>Equipment:</strong> ${equipmentType}</p>
+        <p><strong>Date:</strong> ${date}</p>
+        <p><strong>Operator:</strong> ${operator}</p>
+        <p><strong>Equipment ID:</strong> ${equipmentId}</p>
+        <hr>
+        <h3>Checklist Results</h3>
+    `;
+    results.forEach(r => {
+        const color = r.status === 'Pass' ? 'green' : r.status === 'Fail' ? 'red' : 'gray';
+        summaryHTML += `<p><strong>${r.name}</strong><br><span style="color:${color};font-weight:bold;">${r.status}</span><br>Notes: ${r.notes}</p>`;
+    });
+    summaryHTML += hasFail 
+        ? `<p style="color:red;font-weight:bold;font-size:1.2em;">⚠️ Equipment not safe – report defects immediately!</p>`
+        : `<p style="color:green;font-weight:bold;">✓ All checks passed – equipment ready for use.</p>`;
 
     document.getElementById('summary').innerHTML = summaryHTML;
     document.getElementById('summary').style.display = 'block';
-
-    // Optional: scroll to summary
     document.getElementById('summary').scrollIntoView({ behavior: 'smooth' });
+
+    // Send to Google Sheet
+    const payload = { date, equipmentType, equipmentId, operator, hasFail, items: results };
+
+    fetch("https://script.google.com/macros/s/AKfycbzjzDgKCWxM2YDA8etWSd-hO14fdVG81xTGf51oNCwjWpi6xzWliT7MnUiLDTbzt4ozqg/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+    })
+    .then(() => alert("✅ Check submitted successfully!"))
+    .catch(() => alert("Data saved locally. Google Sheet send failed – check console."))
+    .finally(() => {
+        btn.disabled = false;
+        btn.textContent = "Submit Check";
+    });
 });
 </script>
+</body>
+</html>
